@@ -83,7 +83,7 @@ func initTracer() (*sdktrace.TracerProvider, error) {
 func main() {
 	var engine string
 
-	flag.StringVar(&engine, "db_engine", "mysql", "db-engine to run the sample application on")
+	flag.StringVar(&engine, "db_engine", "pg", "db-engine to run the sample application on")
 	flag.Parse()
 
 	if engine != "mysql" && engine != "pg" {

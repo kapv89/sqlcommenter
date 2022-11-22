@@ -14,19 +14,14 @@
 
 package http
 
-var framework = "net/http"
-
-func SetFramework(f string) {
-	framework = f
-}
-
 type HTTPRequestExtractor struct {
-	route  string
-	action string
+	framework string
+	route     string
+	action    string
 }
 
-func NewHTTPRequestExtractor(route string, action string) *HTTPRequestExtractor {
-	return &HTTPRequestExtractor{route, action}
+func NewHTTPRequestExtractor(framework, route, action string) *HTTPRequestExtractor {
+	return &HTTPRequestExtractor{framework, route, action}
 }
 
 func (h *HTTPRequestExtractor) Route() string {
@@ -38,5 +33,5 @@ func (h *HTTPRequestExtractor) Action() string {
 }
 
 func (h *HTTPRequestExtractor) Framework() string {
-	return framework
+	return h.framework
 }

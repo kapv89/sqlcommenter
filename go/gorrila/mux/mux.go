@@ -8,10 +8,6 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func Init() {
-
-}
-
 func SQLCommenterMiddleware(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		route := mux.CurrentRoute(r)
@@ -20,7 +16,7 @@ func SQLCommenterMiddleware(h http.Handler) http.Handler {
 			pathTemplate = ""
 		}
 
-		ctx := core.ContextInject(r.Context(), httpnet.NewHTTPRequestExtractor(pathTemplate, core.GetFunctionName(route.GetHandler())))
+		ctx := core.ContextInject(r.Context(), httpnet.NewHTTPRequestExtractor("gorrila/mux", pathTemplate, core.GetFunctionName(route.GetHandler())))
 		h.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
