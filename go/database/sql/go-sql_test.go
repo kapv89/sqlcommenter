@@ -16,7 +16,6 @@ package sql
 
 import (
 	"context"
-	"net/http"
 	"regexp"
 	"testing"
 
@@ -46,12 +45,8 @@ func TestHTTP_Net(t *testing.T) {
 	}
 
 	db := DB{DB: mockDB, driverName: "mocksql", options: core.CommenterOptions{EnableDBDriver: true, EnableRoute: true, EnableFramework: true, EnableApplication: true, Application: "app"}, application: "app"}
-	r, err := http.NewRequest("GET", "hello/1", nil)
-	if err != nil {
-		t.Errorf("http.NewRequest('GET', 'hello/1', nil) returned unexpected error: %v", err)
-	}
 
-	ctx := core.ContextInject(r.Context(), httpnet.NewHTTPRequestExtractor(r, nil))
+	ctx := core.ContextInject(context.Background(), httpnet.NewHTTPRequestTags("net/http", "hello/1", ""))
 	got := db.withComment(ctx, "Select 1")
 	want := "Select 1/*application=app,db_driver=database%2Fsql%3Amocksql,framework=net%2Fhttp,route=hello%2F1*/"
 	if got != want {
