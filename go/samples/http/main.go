@@ -6,9 +6,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/google/sqlcommenter/go/core"
 	gosql "github.com/google/sqlcommenter/go/database/sql"
-	httpnet "github.com/google/sqlcommenter/go/net/http"
 	"github.com/gorilla/mux"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux"
 	"go.opentelemetry.io/otel"
@@ -19,16 +17,9 @@ import (
 	"sqlcommenter-http/mysqldb"
 	"sqlcommenter-http/pgdb"
 	"sqlcommenter-http/todos"
-)
 
-// middleware is used to intercept incoming HTTP calls and apply general functions upon them.
-func middleware(h http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		ctx := core.ContextInject(r.Context(), httpnet.NewHTTPRequestExtractor(r, h))
-		log.Printf("HTTP request sent to %s", r.URL.Path)
-		h.ServeHTTP(w, r.WithContext(ctx))
-	})
-}
+	gosqlmux "github.com/google/sqlcommenter/go/gorrila/mux"
+)
 
 func runApp(todosController *todos.TodosController) {
 	err := todosController.CreateTodosTableIfNotExists()
@@ -47,14 +38,14 @@ func runApp(todosController *todos.TodosController) {
 	}()
 
 	r := mux.NewRouter()
-	r.Use(otelmux.Middleware("sqlcommenter sample-server"))
+	r.Use(otelmux.Middleware("sqlcommenter sample-server"), gosqlmux.SQLCommenterMiddleware)
 
 	r.HandleFunc("/todos", todosController.ActionList).Methods("GET")
 	r.HandleFunc("/todos", todosController.ActionInsert).Methods("POST")
 	r.HandleFunc("/todos/{id}", todosController.ActionUpdate).Methods("PUT")
 	r.HandleFunc("/todos/{id}", todosController.ActionDelete).Methods("DELETE")
 
-	http.ListenAndServe(":8081", middleware(r))
+	http.ListenAndServe(":8081", r)
 }
 
 // host = “host.docker.internal”
@@ -68,7 +59,7 @@ func runForMysql() *gosql.DB {
 }
 
 func runForPg() *gosql.DB {
-	connection := "host=postgres user=postgres password=postgres dbname=postgres port=5432 sslmode=disable"
+	connection := "host=localhost user=postgres password=postgres dbname=postgres port=5432 sslmode=disable"
 	db := pgdb.ConnectPG(connection)
 	todosController := &todos.TodosController{Engine: "pg", DB: db, SQL: todos.PGQueries{}}
 	runApp(todosController)

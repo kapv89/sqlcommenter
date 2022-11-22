@@ -2,6 +2,14 @@ module sqlcommenter-http
 
 go 1.19
 
+replace github.com/google/sqlcommenter/go/core => ../../core
+
+replace github.com/google/sqlcommenter/go/net/http => ../../net/http
+
+replace github.com/google/sqlcommenter/go/database/sql => ../../database/sql
+
+replace github.com/google/sqlcommenter/go/gorrila/mux => ../../gorrila/mux
+
 require (
 	github.com/go-sql-driver/mysql v1.6.0
 	go.opentelemetry.io/otel/exporters/stdout/stdouttrace v1.11.1
@@ -18,6 +26,8 @@ require (
 	github.com/lib/pq v1.10.7
 	go.opentelemetry.io/otel v1.11.1
 )
+
+require github.com/google/sqlcommenter/go/gorrila/mux v0.0.0-00010101000000-000000000000 // indirect
 
 require (
 	github.com/go-logr/logr v1.2.3 // indirect

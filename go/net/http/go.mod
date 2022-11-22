@@ -2,6 +2,8 @@ module github.com/google/sqlcommenter/go/net/http
 
 go 1.19
 
+replace "github.com/google/sqlcommenter/go/core" => "../../core" 
+
 require github.com/google/sqlcommenter/go/core v0.0.2-beta
 
 require (

@@ -16,4 +16,4 @@ RUN CGO_ENABLED=0 go build -v
 EXPOSE 8081
  
 # Start app
-CMD ["./sqlcommenter-http", "--db_engine=mysql"]
+CMD ["./sqlcommenter-http", "--db_engine=pg"]

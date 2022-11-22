@@ -14,29 +14,29 @@
 
 package http
 
-import (
-	"net/http"
+var framework = "net/http"
 
-	"github.com/google/sqlcommenter/go/core"
-)
-
-type HTTPRequestExtractor struct {
-	r    *http.Request
-	next any
+func SetFramework(f string) {
+	framework = f
 }
 
-func NewHTTPRequestExtractor(r *http.Request, next any) *HTTPRequestExtractor {
-	return &HTTPRequestExtractor{r, next}
+type HTTPRequestExtractor struct {
+	route  string
+	action string
+}
+
+func NewHTTPRequestExtractor(route string, action string) *HTTPRequestExtractor {
+	return &HTTPRequestExtractor{route, action}
 }
 
 func (h *HTTPRequestExtractor) Route() string {
-	return h.r.URL.Path
+	return h.route
 }
 
 func (h *HTTPRequestExtractor) Action() string {
-	return core.GetFunctionName(h.next)
+	return h.action
 }
 
 func (h *HTTPRequestExtractor) Framework() string {
-	return "net/http"
+	return framework
 }
