@@ -16,7 +16,7 @@ func SQLCommenterMiddleware(h http.Handler) http.Handler {
 			pathTemplate = ""
 		}
 
-		ctx := core.ContextInject(r.Context(), httpnet.NewHTTPRequestExtractor("gorrila/mux", pathTemplate, core.GetFunctionName(route.GetHandler())))
+		ctx := core.ContextInject(r.Context(), httpnet.NewHTTPRequestTags("gorrila/mux", pathTemplate, core.GetFunctionName(route.GetHandler())))
 		h.ServeHTTP(w, r.WithContext(ctx))
 	})
 }

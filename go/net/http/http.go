@@ -14,24 +14,24 @@
 
 package http
 
-type HTTPRequestExtractor struct {
+type HTTPRequestTags struct {
 	framework string
 	route     string
 	action    string
 }
 
-func NewHTTPRequestExtractor(framework, route, action string) *HTTPRequestExtractor {
-	return &HTTPRequestExtractor{framework, route, action}
+func NewHTTPRequestTags(framework, route, action string) *HTTPRequestTags {
+	return &HTTPRequestTags{framework, route, action}
 }
 
-func (h *HTTPRequestExtractor) Route() string {
+func (h *HTTPRequestTags) Route() string {
 	return h.route
 }
 
-func (h *HTTPRequestExtractor) Action() string {
+func (h *HTTPRequestTags) Action() string {
 	return h.action
 }
 
-func (h *HTTPRequestExtractor) Framework() string {
+func (h *HTTPRequestTags) Framework() string {
 	return h.framework
 }
