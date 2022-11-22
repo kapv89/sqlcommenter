@@ -4,8 +4,6 @@ go 1.19
 
 replace github.com/google/sqlcommenter/go/core => ../../core
 
-replace github.com/google/sqlcommenter/go/net/http => ../../net/http
-
 replace github.com/google/sqlcommenter/go/database/sql => ../../database/sql
 
 replace github.com/google/sqlcommenter/go/gorrila/mux => ../../gorrila/mux
@@ -27,14 +25,16 @@ require (
 	go.opentelemetry.io/otel v1.11.1
 )
 
-require github.com/google/sqlcommenter/go/gorrila/mux v0.0.0-00010101000000-000000000000 // indirect
+require (
+	github.com/google/sqlcommenter/go/gorrila/mux v0.0.0-00010101000000-000000000000
+	github.com/google/sqlcommenter/go/net/http v0.0.2-beta // indirect
+)
 
 require (
 	github.com/go-logr/logr v1.2.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/google/sqlcommenter/go/core v0.0.2-beta
 	github.com/google/sqlcommenter/go/database/sql v0.0.2-beta
-	github.com/google/sqlcommenter/go/net/http v0.0.2-beta
 	go.opentelemetry.io/otel/trace v1.11.1 // indirect
 	golang.org/x/sys v0.0.0-20220927170352-d9d178bc13c6 // indirect
 )
